@@ -7,6 +7,7 @@ from gymnasium import spaces
 # pip3 install opencv-python
 # pip3 install stable-baselines3
 # pip3 install tensorboard
+# pip3 install pygame
 
 
 # Escenarios disponibles
@@ -66,7 +67,7 @@ class SamuraiShodownEnv(gym.Env):
             state=self.estado_fijo,
             players=1,
             scenario='scenario',
-            render_mode=False
+            render_mode=True
         )
 
 
