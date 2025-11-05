@@ -4,6 +4,11 @@ import retro
 import cv2
 from gymnasium import spaces
 
+# pip3 install opencv-python
+# pip3 install stable-baselines3
+# pip3 install tensorboard
+
+
 # Escenarios disponibles
 # Level1.WanfuVsHaohmaru
 # Level1.Wanfu.bonusstage
