@@ -3,9 +3,9 @@ import multiprocessing
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import SubprocVecEnv
 from stable_baselines3.common.callbacks import CheckpointCallback
-from ss_env import SamuraiShodownEnv
+from ss_env_Bot import SamuraiShodownEnv
 from stable_baselines3.common.callbacks import CallbackList
-from reward_logger_callback import RewardLoggerCallback
+from reward_logger_callback_Bot import RewardLoggerCallback
 from datetime import datetime
 
 def main():
@@ -18,7 +18,7 @@ def main():
 
     env = SubprocVecEnv([lambda: SamuraiShodownEnv() for _ in range(num_procesos)])
 
-    model_path = "./RL/ppo_mk_model"
+    model_path = "./RL/ppo_SS_model"
     log_name = datetime.now().strftime("PPO_%d-%m___%H-%M_Mapa_Aleatorio_2_7_")
 
     if os.path.exists(f"{model_path}.zip"):
@@ -43,7 +43,7 @@ def main():
     checkpoint_callback = CheckpointCallback(
         save_freq=100_000,
         save_path=checkpoint_dir,
-        name_prefix="ppo_mk_checkpoint"
+        name_prefix="ppo_SS_checkpoint"
     )
     reward_logger_callback = RewardLoggerCallback()
     callback_list = CallbackList([checkpoint_callback, reward_logger_callback])

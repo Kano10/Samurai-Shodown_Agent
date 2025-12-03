@@ -1,9 +1,3 @@
-import gymnasium as gym
-import numpy as np
-import retro
-import cv2
-from gymnasium import spaces
-
 # pip3 install opencv-python
 # pip3 install stable-baselines3
 # pip3 install tensorboard
@@ -20,16 +14,26 @@ from gymnasium import spaces
 # Controles
 # https://www.retrogames.cz/manualy/Genesis/Samurai_Shodown_-_Genesis_-_Manual.pdf
 
+import gymnasium as gym
+import numpy as np
+import retro
+import cv2
+from gymnasium import spaces
+
 class SamuraiShodownEnv(gym.Env):
     def __init__(self, resize_shape=(84, 84), n=4):
         super().__init__()
 
-        # Escenario fijo
-        self.estado_fijo = "Level1.HaohmaruVsWanFu"
+        # Escenarios aleatorios
+        self.posibles_estados = [
+            "Level1.HaohmaruVsHaohmaru",
+            "Level1.HaohmaruVsWanFu",
+            "Level1.WanfuVsHaohmaru"
+        ]
+
         self.env = None
         self._crear_nuevo_env()
-        
-        # Inicialización del entorno y del procesamiento
+
         self.resize_shape = resize_shape
         self.observation_space = spaces.Box(
             low=0,
@@ -39,42 +43,40 @@ class SamuraiShodownEnv(gym.Env):
         )
         self.action_space = self.env.action_space
 
-        # Variables para la evaluación de recompensas
+        # Variables de recompensa
         self.last_step_action = None
         self.last_step_info = None
         self.no_atack_steps = 0
         self.prev_health = 120
         self.prev_enemy_hp = 120
 
-        # Parámetros para frame skip
         self.n = n
 
-        # Parámetros para estadísticas
+        # Estadísticas
         self.damage_to_player_steps = 0
         self.efective_attack_steps = 0
         self.efective_block_steps = 0
         self.total_steps = 0
 
-        # Control para intro de batalla
+        # Control de intro
         self.saltando_intro = False
         self.intro_steps_restantes = 175
 
-
     def _crear_nuevo_env(self):
-        """Crea siempre el mismo escenario"""
+        estado_random = np.random.choice(self.posibles_estados)
+        print(f"[SamuraiShodownEnv] Escenario seleccionado: {estado_random}")
+
         self.env = retro.make(
             game='SamuraiShodown-Genesis',
-            state=self.estado_fijo,
+            state=estado_random,
             players=1,
             scenario='scenario',
             render_mode=True
         )
 
-
     def preprocess(self, obs):
         resized = cv2.resize(obs, self.resize_shape, interpolation=cv2.INTER_AREA)
         return np.transpose(resized.astype(np.uint8), (2, 0, 1))
-
 
     def reset(self, seed=None, options=None):
         self.saltando_intro = True
@@ -100,7 +102,6 @@ class SamuraiShodownEnv(gym.Env):
 
         return obs, info
 
-
     def step(self, action):
         terminated = False
         truncated = False
@@ -117,7 +118,7 @@ class SamuraiShodownEnv(gym.Env):
             obs = self.preprocess(obs)
             return obs, 0.0, terminated, truncated, info
 
-        for i in range(self.n):
+        for _ in range(self.n):
             obs, _, terminated, truncated, info = self.env.step(action)
             obs = self.preprocess(obs)
             if terminated or truncated:
@@ -137,7 +138,7 @@ class SamuraiShodownEnv(gym.Env):
         if damage_to_Enemy > 0:
             reward += 0.6 + (damage_to_Enemy / 120)
             self.efective_attack_steps += 1
-        
+
         if curr_health == self.prev_health:
             if damage_to_Enemy == 0:
                 self.no_atack_steps += 1
@@ -159,7 +160,7 @@ class SamuraiShodownEnv(gym.Env):
         self.prev_enemy_hp = curr_enemy_hp
         self.last_step_action = action
         self.last_step_info = info
-        
+
         if terminated or truncated:
             if curr_health <= 0:
                 reward -= 5
