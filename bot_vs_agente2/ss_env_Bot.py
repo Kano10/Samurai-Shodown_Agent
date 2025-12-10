@@ -76,7 +76,7 @@ class SamuraiShodownEnv(gym.Env):
             state=estado_random,
             players=1,
             scenario='scenario',
-            render_mode='human'
+            render_mode=False
         )
 
     def preprocess(self, obs):
