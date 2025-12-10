@@ -26,7 +26,6 @@ class SamuraiShodownEnv(gym.Env):
         self.posibles_estados = [
             "Level1.HaohmaruVsHaohmaru",
             "Level1.HaohmaruVsWanFu",
-            "Level1.WanfuVsHaohmaru"
         ]
 
         self.env = None
