@@ -50,7 +50,7 @@ def main():
 
     print("Comenzando entrenamiento...")
     model.learn(
-        total_timesteps= 7_000_000,
+        total_timesteps= 18_000_000,
         callback=callback_list,
         reset_num_timesteps=False,
         tb_log_name=log_name
