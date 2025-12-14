@@ -24,7 +24,6 @@ class RewardLoggerCallback(BaseCallback):
             if dones[i]:
                 info = infos[i]
                 efective_attack_steps = info.get("efective_attack_steps", 0)
-                efective_block_steps = info.get("efective_block_steps", 0)
                 total_steps = max(info.get("total_steps", 1), 1)
                 damage_to_player = info.get("damage_to_player_steps", 0)
 
@@ -41,7 +40,6 @@ class RewardLoggerCallback(BaseCallback):
 
                 # Logging en TensorBoard: Valores absolutos
                 self.writer.add_scalar("raw/attack_steps", efective_attack_steps, self.num_timesteps)
-                self.writer.add_scalar("raw/block_steps", efective_block_steps, self.num_timesteps)
                 self.writer.add_scalar("raw/damage_to_player", damage_to_player, self.num_timesteps)
                 self.writer.add_scalar("raw/total_steps", total_steps, self.num_timesteps)
 
