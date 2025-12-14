@@ -26,6 +26,7 @@ class SamuraiShodownEnv(gym.Env):
         self.posibles_estados = [
             "Level1.HaohmaruVsHaohmaru",
             "Level1.HaohmaruVsWanFu",
+            "Level1.WanfuVsHaohmaru"
         ]
 
         self.env = None
@@ -76,7 +77,7 @@ class SamuraiShodownEnv(gym.Env):
             state=estado_random,
             players=1,
             scenario='scenario',
-            render_mode="human"
+            render_mode=False
         )
 
     def preprocess(self, obs):
@@ -149,8 +150,8 @@ class SamuraiShodownEnv(gym.Env):
                 self.no_atack_steps += 1
             else:
                 self.no_atack_steps = 0
-
-            if self.no_atack_steps >= 10:
+                # no hacer nada por 3 segundos
+            if self.no_atack_steps >= 45:
                 reward -= 0.06
 
         if damage_to_Player > 0:
