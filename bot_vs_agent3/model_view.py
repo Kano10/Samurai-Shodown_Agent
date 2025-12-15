@@ -5,7 +5,7 @@ from ss_env_Bot import SamuraiShodownEnv
 import time
 
 # === Parámetros ===
-model_path = "./RL/ppo_SS_model1"
+model_path = "./RL/ppo_SS_model"
 max_steps = 10_000
 
 # === Carga el entorno y el modelo ===
