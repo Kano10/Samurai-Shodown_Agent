@@ -29,19 +29,41 @@ class RewardLoggerCallback(BaseCallback):
 
                 # Porcentajes
                 pct_attack = efective_attack_steps / total_steps
-                pct_block = efective_block_steps / total_steps
                 pct_dano = damage_to_player / total_steps
 
                 # Logging en TensorBoard: Porcentajes
-                self.writer.add_scalar("episode/reward", self.episode_rewards[i], self.num_timesteps)
-                self.writer.add_scalar("episode/pct_attack", pct_attack, self.num_timesteps)
-                self.writer.add_scalar("episode/pct_block", pct_block, self.num_timesteps)
-                self.writer.add_scalar("episode/pct_dano", pct_dano, self.num_timesteps)
+                self.writer.add_scalar(
+                    "episode/reward",
+                    self.episode_rewards[i],
+                    self.num_timesteps
+                )
+                self.writer.add_scalar(
+                    "episode/pct_attack",
+                    pct_attack,
+                    self.num_timesteps
+                )
+                self.writer.add_scalar(
+                    "episode/pct_dano",
+                    pct_dano,
+                    self.num_timesteps
+                )
 
                 # Logging en TensorBoard: Valores absolutos
-                self.writer.add_scalar("raw/attack_steps", efective_attack_steps, self.num_timesteps)
-                self.writer.add_scalar("raw/damage_to_player", damage_to_player, self.num_timesteps)
-                self.writer.add_scalar("raw/total_steps", total_steps, self.num_timesteps)
+                self.writer.add_scalar(
+                    "raw/attack_steps",
+                    efective_attack_steps,
+                    self.num_timesteps
+                )
+                self.writer.add_scalar(
+                    "raw/damage_to_player",
+                    damage_to_player,
+                    self.num_timesteps
+                )
+                self.writer.add_scalar(
+                    "raw/total_steps",
+                    total_steps,
+                    self.num_timesteps
+                )
 
                 # Reset de reward
                 self.episode_rewards[i] = 0.0
@@ -50,3 +72,4 @@ class RewardLoggerCallback(BaseCallback):
 
     def _on_training_end(self):
         self.writer.close()
+

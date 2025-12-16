@@ -9,7 +9,7 @@ from reward_logger_callback_Bot import RewardLoggerCallback
 from datetime import datetime
 
 def main():
-    num_procesos = min(multiprocessing.cpu_count(), 4)
+    num_procesos = min(multiprocessing.cpu_count(), 6)
     print(f"Usando {num_procesos} procesos para entrenar...")
 
     # Crear carpetas si no existen
@@ -50,7 +50,7 @@ def main():
 
     print("Comenzando entrenamiento...")
     model.learn(
-        total_timesteps= 30_000_000,
+        total_timesteps= 15_000_000,
         callback=callback_list,
         reset_num_timesteps=False,
         tb_log_name=log_name

@@ -148,7 +148,7 @@ def graficar_comparacion(todas_recompensas_model, todas_recompensas_random, vict
 # MAIN
 # ============================
 if __name__ == "__main__":
-    env = SamuraiShodownEnv(skip_intro=True)
+    env = SamuraiShodownEnv()
     model_path = "../RL/ppo_SS_model"
     model = PPO.load(model_path)
 
