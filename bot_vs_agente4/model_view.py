@@ -5,7 +5,7 @@ from ss_env_Bot import SamuraiShodownEnv
 import time
 
 # === Parámetros ===
-model_path = "./RL/ppo_SS_model1"
+model_path = "./RL/ppo_SS_model"
 max_steps = 10_000
 
 # === Carga el entorno y el modelo ===
@@ -23,10 +23,8 @@ for step in range(max_steps):
     obs, reward, terminated, truncated, info = env.step(action)
     done = terminated or truncated
 
-    reca += reward
     print(reca)
 
-    # Retro ya renderiza automáticamente
     time.sleep(0.02)
 
     if done:

@@ -152,7 +152,7 @@ if __name__ == "__main__":
     model_path = "../RL/ppo_SS_model"
     model = PPO.load(model_path)
 
-    episodios = 7
+    episodios = 3
     repeticiones = 10
 
     recompensas_model, victorias_model = evaluar_agente(env, model, episodios, repeticiones)
